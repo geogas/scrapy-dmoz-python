@@ -12,9 +12,9 @@ title and the description.
 --------------------------
 vi /etc/postgresql/9.3/main/pg_hba.conf
 
-# IPv4 local connections:
+- IPv4 local connections:
 host    all             all             127.0.0.1/32            md5
-# IPv6 local connections:
+- IPv6 local connections:
 host    all             all             ::1/128                 md5
 
 ------------------------------
