@@ -3,8 +3,10 @@ from scrapy import Spider
 from scrapy.selector import Selector
 from dmoz.items import DmozItem
 
-# This class defines the rules according to which we extract information
-# from the urls we scrape
+"""
+This class defines the rules according to which we extract information
+from the urls we scrape.
+"""
 class DmozSpider(Spider):
         name = "dmoz"
         allowed_domains = ["dmoz.org"]
@@ -22,9 +24,10 @@ class DmozSpider(Spider):
         max_title_length = 150
         max_desc_length = 500
 
+        """
+        Given the raw title returns a better string representation.
+        """
         def get_title(self, raw_title):
-            """Given the raw title returns a better string representation"""
-
             title = " ".join("".join(raw_title).split()).strip()
 
             if len(title) > self.max_title_length:
@@ -32,9 +35,10 @@ class DmozSpider(Spider):
 
             return title[:self.max_title_length]
 
+        """
+        Given the raw description returns a better string representation.
+        """
         def get_desc(self, raw_desc):
-            """Given the raw description returns a better string representation"""
-
             desc = " ".join("".join(raw_desc).split()).strip()
 
             # removes the " - " substring existing in the beggining of the description
@@ -45,12 +49,18 @@ class DmozSpider(Spider):
 
             return desc[:self.max_desc_length]
 
+        """
+        Given the start url returns the programming language the book is
+        written about.
+        """
         def get_category(self, url):
-            """Given the start url returns the programming language the book is written about"""
-
             category = [lang for lang in self.langs if lang in url.lower()]
+
             return category[0] if len(category) > 0 else "unknown"
 
+        """
+        Parsing the scraped page and setting the desired information.
+        """
         def parse(self, response):
             sel = Selector(response)
             scrapped_items = sel.xpath('//ul[@class="directory-url"]/li')

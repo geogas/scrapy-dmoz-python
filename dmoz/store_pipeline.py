@@ -2,6 +2,11 @@ import sys, psycopg2
 from scrapy.exceptions import DropItem
 from scrapy.conf import settings
 
+"""
+This class stores the given items into the Dmoz table. The db connection
+is set up in the init function. The actual insertion takes place in the
+process item function.
+"""
 class ItemsToPostgres(object):
 
     conn = None
@@ -9,6 +14,7 @@ class ItemsToPostgres(object):
 
     def __init__(self):
         try:
+            # credentials are read from the settings.py file
             self.conn = psycopg2.connect("host='%s' dbname='%s' user='%s' password='%s'" % (settings['DB_HOST'], settings['DB_NAME'], settings['DB_USER'], settings['DB_PASSWD']))
             self.cursor = self.conn.cursor()
         except:
