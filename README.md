@@ -24,9 +24,37 @@ $ createuser testuser -d -e -P
 
 $ createdb scrapeDB -U testuser -W
 
-$ psql -d scrapeDB -U testuser -W
+---------------
+| Preparation |
+---------------
+You should firstly execute the python script being responsible for creating
+the Dmoz table. Simply run:
+
+$ python dbscripts/prepare_db.py
 
 -------------
 | Execution |
 -------------
 $ scrapy crawl dmoz 
+
+-----------
+| Results |
+-----------
+The outcome of the above command can be found in the postgres Dmoz
+table.
+
+Connect to the database:
+
+$ psql -d scrapeDB -U testuser -W 
+
+You can check the result by following a simple SQL query like:
+
+$ SELECT * FROM Dmoz;
+
+-----------
+| Cleanup |
+----------
+Execute the following command for dropping the Dmoz table:
+
+$ python dbscript/destroy_db.py
+
